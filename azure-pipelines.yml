@@ -15,7 +15,7 @@ variables:
    value: 'dev'
 
  - name: 'backend_rg'
-   value: 'new'
+   value: 'Fitnessgeek-rg'
 
  - name: 'backend_storageaccount'
    value: 'terraformbackend2024ani'
