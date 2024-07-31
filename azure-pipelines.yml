@@ -39,7 +39,6 @@ stages :
     displayName : 'Terraform Validate'
     jobs:
     - job: validate
-      continueOnError: false
       steps:
       - task: TerraformInstaller@0
         displayName: 'install'
@@ -63,16 +62,10 @@ stages :
           command: 'validate' 
 
   - stage: Plan_Apply_dev
-    dependsOn: [validate]
-    condition: succeeded('validate')
     displayName: Plan_Apply_dev
     jobs:
-      - deployment: 'Approval_Apply_Stage'
-        displayName: 'Approval gate for this stage'
-        environment: 'dev'
       - job: plan
         displayName: 'Terraform_plan_dev'
-        continueOnError: false
         steps:
         - task: TerraformInstaller@0
           displayName: 'install'
@@ -97,13 +90,9 @@ stages :
             commandOptions: '-var-file="config.tfvars" -out main.tfplan'
             environmentServiceNameAzureRM: $(serviceconnection)
             workingDirectory: '$(working_directory)'
-
-
       - job: Terraform_apply_dev
-        
-        timeoutInMinutes: 0
+        displayName: 'Terraform_aaply'
         steps:
-        - checkout: self
         - task: TerraformInstaller@0
           displayName: 'install'
           inputs:
