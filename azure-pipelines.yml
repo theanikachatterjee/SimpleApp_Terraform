@@ -100,15 +100,7 @@ stages :
 
 
       - job: Terraform_apply_dev
-        dependsOn :
-        - plan
         
-        condition: |
-          and
-           (
-             eq(dependencies.plan.result, 'Succeeded'),
-             
-           )
         timeoutInMinutes: 0
         steps:
         - checkout: self
